@@ -1,20 +1,22 @@
+using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Vehicle_Parking_Management.Models;
 using Vehicle_Parking_Management.Services;
-using Vehicle_Parking_Management.tests.Test.fixtures;
 
 namespace Vehicle_Parking_Management.tests.Test.Controller
 {
     public class TestVehicleController
     {
+        private readonly Fixture _fixture = new Fixture();
         [Fact]
         public async Task ShouldReturnOn_GetAllVehicle_AndStatusAs200()
         {
             var mockVehicleService = new Mock<IVehicleService>();
+            var mockVehicle=_fixture.Create<List<Vehicle>>();
             mockVehicleService.Setup(service => service.getAllVehicles()).
-                ReturnsAsync(VehicleFixture.GetAllTestVehicles());
+                ReturnsAsync(mockVehicle);
 
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.GetAllVehicle();
@@ -49,9 +51,9 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         {
             var mockVehicleService = new Mock<IVehicleService>();
             var testVehicleId = "1";
-            var testVehicle = VehicleFixture.GetTestVehicle(testVehicleId);
+            var mockVehicle = _fixture.Create<Vehicle>();
             mockVehicleService.Setup(service => service.getVehicle(testVehicleId))
-                .ReturnsAsync(testVehicle);
+                .ReturnsAsync(mockVehicle);
 
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.GetVehicle(testVehicleId);
@@ -59,7 +61,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
             mockVehicleService.Verify(service => service.getVehicle(testVehicleId), Times.Once());
             result.Should().BeOfType<OkObjectResult>();
             var objectResult = (OkObjectResult)result;
-            objectResult.Value.Should().BeEquivalentTo(testVehicle);
+            objectResult.Value.Should().BeEquivalentTo(mockVehicle);
             objectResult.StatusCode.Should().Be(200);
         }
         [Fact]
@@ -67,7 +69,6 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         {
             var mockVehicleService = new Mock<IVehicleService>();
             var testVehicleId = "1";
-            var testVehicle = VehicleFixture.GetTestVehicle(testVehicleId);
             mockVehicleService.Setup(service => service.getVehicle(testVehicleId))
                 .ReturnsAsync(null as Vehicle);
 
