@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Vehicle_Parking_Management.Models;
+using Vehicle_Parking_Management.Models.Api;
 using Vehicle_Parking_Management.Services;
 
 namespace Vehicle_Parking_Management
@@ -30,7 +31,7 @@ namespace Vehicle_Parking_Management
         }
 
         [HttpPost("createVehicle")]
-        public async Task<ActionResult>CreateVehicle(Vehicle vehicleData)
+        public async Task<ActionResult>CreateVehicle(VehicleDto vehicle)
         {
             return Ok("Created");
         }

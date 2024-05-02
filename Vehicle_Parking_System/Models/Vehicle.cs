@@ -1,7 +1,12 @@
-﻿namespace Vehicle_Parking_Management.Models
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace Vehicle_Parking_Management.Models
 {
     public class Vehicle
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string VehicleId { get; set; }
         public string VehicleType { get; set; }
 

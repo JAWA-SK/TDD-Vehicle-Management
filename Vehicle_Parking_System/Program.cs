@@ -1,3 +1,6 @@
+using MongoDB.Driver;
+using Vehicle_Parking_Management.Mapping;
+using Vehicle_Parking_Management.Models;
 using Vehicle_Parking_Management.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IVehicleService, VehicleService>();
+builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(AutoMapping));
+builder.Services.Configure<VehicleDataBaseSettings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.AddSingleton<IMongoClient>(_ =>
+{
+    var connectionString = builder.Configuration.GetSection("ConnectionStrings:ConnectionUrl").Value;
+    return new MongoClient(connectionString);
+});
+builder.Services.AddSingleton<IVehicleService, VehicleService>();
+
 
 var app = builder.Build();
 
