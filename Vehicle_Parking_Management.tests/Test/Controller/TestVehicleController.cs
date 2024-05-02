@@ -59,8 +59,8 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
             var result = await testController.GetVehicle(testVehicleId);
 
             mockVehicleService.Verify(service => service.getVehicle(testVehicleId), Times.Once());
-            result.Should().BeOfType<OkObjectResult>();
             var objectResult = (OkObjectResult)result;
+            result.Should().BeOfType<OkObjectResult>();
             objectResult.Value.Should().BeEquivalentTo(mockVehicle);
             objectResult.StatusCode.Should().Be(200);
         }
@@ -75,9 +75,46 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.GetVehicle(testVehicleId);
 
-            result.Should().BeOfType<NotFoundResult>();
             var objectResult = (NotFoundResult)result;
+            result.Should().BeOfType<NotFoundResult>();
             objectResult.StatusCode.Should().Be(400);
+        }
+
+        [Fact]
+        public async Task ShouldReturnOn_CreationOfVehicleObject_AndStatusAs201()
+        {
+            var mockVehicle = _fixture.Create<Vehicle>();
+            var mockVehicleService=new Mock<IVehicleService>();
+            mockVehicleService.Setup(service=>service.createVehicle(mockVehicle)).
+                ReturnsAsync(mockVehicle);
+
+            var testController=new VehicleController(mockVehicleService.Object);
+            var result =await testController.CreateVehicle(mockVehicle);
+
+            var objectResult=(OkObjectResult)result;
+
+            mockVehicleService.Verify(service=> service.createVehicle(mockVehicle),Times.Once());
+            objectResult.Should().BeOfType<OkObjectResult>();
+            objectResult.Value.Should().BeEquivalentTo(mockVehicle);
+            objectResult.StatusCode.Should().Be(201);
+        }
+
+        [Fact]
+        public async Task ShouldReturnOn_InvalidVehicleObject_AndStatusAs406()
+        {
+            var mockVehicle =new Vehicle();
+            var mockVehicleService = new Mock<IVehicleService>();
+            mockVehicleService.Setup(service => service.createVehicle(mockVehicle)).
+                ReturnsAsync(mockVehicle);
+
+            var testController = new VehicleController(mockVehicleService.Object);
+            var result = await testController.CreateVehicle(mockVehicle);
+
+            var objectResult = (BadRequestResult)result;
+
+            mockVehicleService.Verify(service => service.createVehicle(mockVehicle), Times.Once());
+            objectResult.Should().BeOfType<BadRequestResult>();
+            objectResult.StatusCode.Should().Be(406);
         }
     }
 }
