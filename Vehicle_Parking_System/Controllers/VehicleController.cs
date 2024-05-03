@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Vehicle_Parking_Management.Models;
 using Vehicle_Parking_Management.Models.Api;
-using Vehicle_Parking_Management.Services;
+using VehicleManagementSystem.Services.Vehicle;
 
 namespace Vehicle_Parking_Management
 {

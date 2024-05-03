@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Vehicle_Parking_Management.Models
+namespace VehicleManagementSystem.Models.Data
 {
-    public class Vehicle
+    public class VehicleModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -40,9 +41,28 @@ namespace Vehicle_Parking_Management.tests.Test.Services
 
             var service=new VehicleService(_mockDbSettings.Object,_mockClient.Object, _mockMapper.Object);
 
-            var result=await service.createVehicle(mockVehicleDto);
+            Vehicle result=await service.createVehicle(mockVehicleDto);
 
-            _mockCollection.Verify(vehicle=>vehicle.InsertOneAsync(mockVehicle,null,default),Times.Once());
+            _mockCollection.Verify(vehicle => vehicle.InsertOneAsync(mockVehicle,null,default), Times.Once());
+
+            Assert.Equal(mockVehicle, result);
+        }
+
+        [Fact]
+        public async Task GetVehicle_Should_ReturnVehicle_ByTherId()
+        {
+            var mockVehicle=_fixture.Create<Vehicle>();
+            var mockVehicleId=_fixture.Create<string>();
+
+            var service = new VehicleService(_mockDbSettings.Object, _mockClient.Object, _mockMapper.Object);
+            var result = await service.getVehicle(mockVehicleId);
+
+            _mockCollection.Setup(collection=>collection.FindAsync(It.IsAny<Expression<Func<Vehicle, bool>>>(), It.IsAny<FindOptions<Vehicle, Vehicle>>(),default)) 
+             .ReturnsAsync((IAsyncCursor<Vehicle>)mockVehicle);
+
+            Assert.Equal(result, mockVehicle);
+
+
         }
     }
 

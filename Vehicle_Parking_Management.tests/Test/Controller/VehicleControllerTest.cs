@@ -2,9 +2,9 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Vehicle_Parking_Management.Models;
 using Vehicle_Parking_Management.Models.Api;
-using Vehicle_Parking_Management.Services;
+using VehicleManagementSystem.Models.Data;
+using VehicleManagementSystem.Services.Vehicle;
 
 namespace Vehicle_Parking_Management.tests.Test.Controller
 {
@@ -15,7 +15,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         public async Task ShouldReturnOn_GetAllVehicle_AndStatusAs200()
         {
             var mockVehicleService = new Mock<IVehicleService>();
-            var mockVehicle=_fixture.Create<List<Vehicle>>();
+            var mockVehicle=_fixture.Create<List<VehicleModel>>();
             mockVehicleService.Setup(service => service.getAllVehicles()).
                 ReturnsAsync(mockVehicle);
 
@@ -25,7 +25,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
             mockVehicleService.Verify(service => service.getAllVehicles(), Times.Once());
             result.Should().BeOfType<OkObjectResult>();
             var objectResult = (OkObjectResult)result;
-            objectResult.Value.Should().BeOfType<List<Vehicle>>();
+            objectResult.Value.Should().BeOfType<List<VehicleModel>>();
             objectResult.StatusCode.Should().Be(200);
 
 
@@ -35,7 +35,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         {
             var mockVehicleService = new Mock<IVehicleService>();
             mockVehicleService.Setup(service => service.getAllVehicles()).
-              ReturnsAsync(new List<Vehicle>());
+              ReturnsAsync(new List<VehicleModel>());
 
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.GetAllVehicle();
@@ -52,7 +52,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         {
             var mockVehicleService = new Mock<IVehicleService>();
             var testVehicleId = "1";
-            var mockVehicle = _fixture.Create<Vehicle>();
+            var mockVehicle = _fixture.Create<VehicleModel>();
             mockVehicleService.Setup(service => service.getVehicle(testVehicleId))
                 .ReturnsAsync(mockVehicle);
 
@@ -71,7 +71,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
             var mockVehicleService = new Mock<IVehicleService>();
             var testVehicleId = _fixture.Create<string>();
             mockVehicleService.Setup(service => service.getVehicle(testVehicleId))
-                .ReturnsAsync(null as Vehicle);
+                .ReturnsAsync(null as VehicleModel);
 
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.GetVehicle(testVehicleId);
@@ -84,7 +84,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         [Fact]
         public async Task ShouldReturnOn_CreationOfVehicleObject_AndStatusAs201()
         {
-            var mockVehicle = _fixture.Create<Vehicle>();
+            var mockVehicle = _fixture.Create<VehicleModel>();
             var mockVehicleDto = _fixture.Create<VehicleDto>();
             var mockVehicleService=new Mock<IVehicleService>();
             mockVehicleService.Setup(service => service.createVehicle(mockVehicleDto)).
@@ -104,7 +104,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         [Fact]
         public async Task ShouldReturnOn_InvalidVehicleObject_AndStatusAs406()
         {
-            var mockVehicle =new Vehicle();
+            var mockVehicle =new VehicleModel();
             var mockVehicleDto =new VehicleDto();
             var mockVehicleService = new Mock<IVehicleService>();
             mockVehicleService.Setup(service => service.createVehicle(mockVehicleDto)).

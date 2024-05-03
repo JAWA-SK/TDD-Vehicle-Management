@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Vehicle_Parking_Management.Models;
 using Vehicle_Parking_Management.Models.Api;
+using VehicleManagementSystem.Models.Data;
 
 namespace Vehicle_Parking_Management.Mapping
 {
@@ -8,7 +8,7 @@ namespace Vehicle_Parking_Management.Mapping
     {
         public AutoMapping()
         {
-            CreateMap<VehicleDto,Vehicle>().ReverseMap();
+            CreateMap<VehicleDto,VehicleModel>().ReverseMap();
         }
     }
 }
