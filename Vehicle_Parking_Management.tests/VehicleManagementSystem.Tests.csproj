@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vehicle_Parking_System\Vehicle_Parking_Management.csproj" />
+    <ProjectReference Include="..\Vehicle_Parking_System\VehicleManagementSystem.csproj" />
   </ItemGroup>
 
   <ItemGroup>

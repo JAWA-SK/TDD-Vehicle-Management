@@ -1,33 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using AutoFixture;
 using AutoMapper;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Moq;
-using Vehicle_Parking_Management.Models;
 using Vehicle_Parking_Management.Models.Api;
-using Vehicle_Parking_Management.Services;
+using VehicleManagementSystem.Models.Data;
+using VehicleManagementSystem.Services.Database;
+using VehicleManagementSystem.Services.Vehicle;
 
 namespace Vehicle_Parking_Management.tests.Test.Services
 {
     public  class VehicleServiceTest
     {
-        private  readonly Mock<IMongoCollection<Vehicle>> _mockCollection; 
-        private  readonly Mock<IMongoClient> _mockClient;
-        private  readonly Mock<IOptions<VehicleDataBaseSettings>> _mockDbSettings;
+       
+        private  readonly Mock<IDatabaseContext> _mockDataBaseContext;
         private  readonly Mock<IMapper> _mockMapper;
         private readonly Fixture _fixture=new Fixture();
     public VehicleServiceTest()
     {
-        _mockCollection = new Mock<IMongoCollection<Vehicle>>();
-        _mockClient = new Mock<IMongoClient>();
-        _mockDbSettings = new Mock<IOptions<VehicleDataBaseSettings>>();
-        _mockMapper = new Mock<IMapper>();
+            _mockDataBaseContext= new Mock<IDatabaseContext>();
+             _mockMapper = new Mock<IMapper>();
     }
 
 
@@ -35,15 +27,16 @@ namespace Vehicle_Parking_Management.tests.Test.Services
         public async Task AddVehicle_Should_InsertVehicle()
         {
             var mockVehicleDto= _fixture.Create<VehicleDto>();
-            var mockVehicle = _fixture.Create<Vehicle>();
+            var mockVehicle = _fixture.Create<VehicleModel>();
 
-            _mockMapper.Setup(mapper=>mapper.Map<Vehicle>(mockVehicleDto)).Returns(mockVehicle);
+            _mockMapper.Setup(mapper=>mapper.Map<VehicleModel>(mockVehicleDto)).Returns(mockVehicle);
 
-            var service=new VehicleService(_mockDbSettings.Object,_mockClient.Object, _mockMapper.Object);
+            var service=new VehicleService(_mockMapper.Object, _mockDataBaseContext.Object);
 
-            Vehicle result=await service.createVehicle(mockVehicleDto);
+            VehicleModel result=await service.createVehicle(mockVehicleDto);
 
-            _mockCollection.Verify(vehicle => vehicle.InsertOneAsync(mockVehicle,null,default), Times.Once());
+            _mockDataBaseContext.Verify(collection => collection.Vehicles.InsertOneAsync(mockVehicle,null,default), Times.Once());
+            
 
             Assert.Equal(mockVehicle, result);
         }
@@ -51,18 +44,31 @@ namespace Vehicle_Parking_Management.tests.Test.Services
         [Fact]
         public async Task GetVehicle_Should_ReturnVehicle_ByTherId()
         {
-            var mockVehicle=_fixture.Create<Vehicle>();
+            var mockVehicle=_fixture.Create<VehicleModel>();
             var mockVehicleId=_fixture.Create<string>();
 
-            var service = new VehicleService(_mockDbSettings.Object, _mockClient.Object, _mockMapper.Object);
+            var service = new VehicleService( _mockMapper.Object, _mockDataBaseContext.Object);
             var result = await service.getVehicle(mockVehicleId);
 
-            _mockCollection.Setup(collection=>collection.FindAsync(It.IsAny<Expression<Func<Vehicle, bool>>>(), It.IsAny<FindOptions<Vehicle, Vehicle>>(),default)) 
-             .ReturnsAsync((IAsyncCursor<Vehicle>)mockVehicle);
+            _mockDataBaseContext.Setup(collection=>collection.Vehicles.FindAsync(It.IsAny<Expression<Func<VehicleModel, bool>>>(), It.IsAny<FindOptions<VehicleModel, VehicleModel>>(),default)) 
+             .ReturnsAsync((IAsyncCursor<VehicleModel>)mockVehicle);
 
             Assert.Equal(result, mockVehicle);
 
+        }
 
+        [Fact]
+        public async Task GetAllVehicle_Should_ReturnAllVehicles()
+        {
+            var mockVehicles = _fixture.Create<List<VehicleModel>>();
+
+            var service= new VehicleService(_mockMapper.Object, _mockDataBaseContext.Object );
+            var result = await service.getAllVehicles();
+
+            _mockDataBaseContext.Setup(collection => collection.Vehicles.FindAsync(It.IsAny<Expression<Func<VehicleModel, bool>>>(), It.IsAny<FindOptions<VehicleModel, VehicleModel>>(), default)).
+                ReturnsAsync((IAsyncCursor<VehicleModel>)mockVehicles);
+
+            Assert.Equal(result, mockVehicles);
         }
     }
 

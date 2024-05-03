@@ -1,36 +1,37 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Vehicle_Parking_Management.Models;
 using Vehicle_Parking_Management.Models.Api;
+using VehicleManagementSystem.Models.Configuration;
+using VehicleManagementSystem.Models.Data;
+using VehicleManagementSystem.Services.Database;
 
-namespace Vehicle_Parking_Management.Services
+namespace VehicleManagementSystem.Services.Vehicle
 {
     public class VehicleService : IVehicleService
     {
-        private readonly IMongoCollection<Vehicle> _vehicleCollection;
         private IMapper _mapper;
-        public VehicleService(IOptions<VehicleDataBaseSettings> dbSettings, IMongoClient client, IMapper mapper)
+        private IDatabaseContext _databaseContext;
+        public VehicleService(IMapper mapper,IDatabaseContext databaseContext)
         {
-            var database = client.GetDatabase(dbSettings.Value.DatabaseName);
-            _vehicleCollection = database.GetCollection<Vehicle>(dbSettings.Value.CollectionName);
             _mapper = mapper;
+            _databaseContext = databaseContext;
         }
-        public async Task<Vehicle> createVehicle(VehicleDto vehicle)
+        public async Task<VehicleModel> createVehicle(VehicleDto vehicle)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Vehicle>> getAllVehicles()
+        public Task<List<VehicleModel>> getAllVehicles()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Vehicle?> getVehicle(string vehicleId)
+        public Task<VehicleModel?> getVehicle(string vehicleId)
         {
             throw new NotImplementedException();
         }
 
- 
+
     }
 }

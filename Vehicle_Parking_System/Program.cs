@@ -1,7 +1,7 @@
 using MongoDB.Driver;
 using Vehicle_Parking_Management.Mapping;
-using Vehicle_Parking_Management.Models;
-using Vehicle_Parking_Management.Services;
+using VehicleManagementSystem.Models.Configuration;
+using VehicleManagementSystem.Services.Vehicle;
 
 var builder = WebApplication.CreateBuilder(args);
 

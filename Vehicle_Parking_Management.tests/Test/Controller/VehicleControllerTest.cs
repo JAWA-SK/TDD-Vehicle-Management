@@ -51,7 +51,7 @@ namespace Vehicle_Parking_Management.tests.Test.Controller
         public async Task ShoudlReturnOn_GetVehicleById_AndStatusAs200()
         {
             var mockVehicleService = new Mock<IVehicleService>();
-            var testVehicleId = "1";
+            var testVehicleId = _fixture.Create<string>();
             var mockVehicle = _fixture.Create<VehicleModel>();
             mockVehicleService.Setup(service => service.getVehicle(testVehicleId))
                 .ReturnsAsync(mockVehicle);

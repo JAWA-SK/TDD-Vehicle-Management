@@ -1,7 +1,7 @@
 ﻿using Vehicle_Parking_Management.Models.Api;
 using VehicleManagementSystem.Models.Data;
 
-namespace Vehicle_Parking_Management.Services
+namespace VehicleManagementSystem.Services.Vehicle
 {
     public interface IVehicleService
     {

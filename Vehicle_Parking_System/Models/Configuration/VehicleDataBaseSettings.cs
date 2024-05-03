@@ -1,4 +1,4 @@
-﻿namespace Vehicle_Parking_Management.Models
+﻿namespace VehicleManagementSystem.Models.Configuration
 {
     public class VehicleDataBaseSettings
     {
