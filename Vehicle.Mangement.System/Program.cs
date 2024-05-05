@@ -1,5 +1,5 @@
 using MongoDB.Driver;
-using Vehicle_Parking_Management.Mapping;
+using VehicleManagementSystem.Helper;
 using VehicleManagementSystem.Models.Configuration;
 using VehicleManagementSystem.Services.Vehicle;
 

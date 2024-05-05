@@ -1,4 +1,4 @@
-﻿namespace Vehicle_Parking_Management.Models.Api
+﻿namespace VehicleManagementSystem.Models.Api
 {
     public class VehicleDto
     {

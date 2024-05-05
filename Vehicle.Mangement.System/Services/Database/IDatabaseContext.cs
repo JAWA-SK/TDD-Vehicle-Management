@@ -5,7 +5,6 @@ namespace VehicleManagementSystem.Services.Database
 {
     public interface IDatabaseContext
     {
-
-        IMongoCollection<VehicleModel> Vehicles {  get; }
+        IMongoCollection<VehicleModel> Vehicles { get; }
     }
 }

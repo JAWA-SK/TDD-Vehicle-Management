@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Vehicle_Parking_Management.Models;
-using Vehicle_Parking_Management.Models.Api;
+﻿using Microsoft.AspNetCore.Mvc;
+using VehicleManagementSystem.Models.Api;
 using VehicleManagementSystem.Services.Vehicle;
 
-namespace Vehicle_Parking_Management
+namespace VehicleManagementSystem.Controllers
 {
     [Route("api")]
     [ApiController]
@@ -20,18 +18,18 @@ namespace Vehicle_Parking_Management
         [HttpGet("getAllVehicle")]
         public async Task<IActionResult> GetAllVehicle()
         {
-           
+
             return Ok("success");
         }
 
         [HttpGet("getVehicle")]
-        public async Task<IActionResult>GetVehicle(string vehicleId)
+        public async Task<IActionResult> GetVehicle(string vehicleId)
         {
             return Ok("success");
         }
 
         [HttpPost("createVehicle")]
-        public async Task<ActionResult>CreateVehicle(VehicleDto vehicle)
+        public async Task<ActionResult> CreateVehicle(VehicleDto vehicle)
         {
             return Ok("Created");
         }

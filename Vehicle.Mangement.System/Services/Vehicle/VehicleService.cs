@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
-using Vehicle_Parking_Management.Models.Api;
-using VehicleManagementSystem.Models.Configuration;
+using VehicleManagementSystem.Models.Api;
 using VehicleManagementSystem.Models.Data;
 using VehicleManagementSystem.Services.Database;
 
@@ -12,11 +9,13 @@ namespace VehicleManagementSystem.Services.Vehicle
     {
         private IMapper _mapper;
         private IDatabaseContext _databaseContext;
-        public VehicleService(IMapper mapper,IDatabaseContext databaseContext)
+
+        public VehicleService(IMapper mapper, IDatabaseContext databaseContext)
         {
             _mapper = mapper;
             _databaseContext = databaseContext;
         }
+
         public async Task<VehicleModel> createVehicle(VehicleDto vehicle)
         {
             throw new NotImplementedException();
