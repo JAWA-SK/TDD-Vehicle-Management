@@ -1,9 +1,11 @@
-﻿namespace VehicleManagementSystem.Models.Configuration
+﻿namespace Vehicle.Management.System.Models.Configuration
 {
-    public class VehicleDataBaseSettings
+    public record VehicleDataBaseSettings
     {
         public string ConnectionUrl { get; set; }
+
         public string DatabaseName { get; set; }
+
         public string CollectionName { get; set; }
     }
 }

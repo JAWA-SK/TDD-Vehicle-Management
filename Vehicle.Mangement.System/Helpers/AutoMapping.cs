@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using VehicleManagementSystem.Models.Api;
-using VehicleManagementSystem.Models.Data;
+using Vehicle.Management.System.Models.Api;
+using Vehicle.Management.System.Models.Data;
 
-namespace VehicleManagementSystem.Helper
+namespace Vehicle.Management.System.Helpers
 {
     public class AutoMapping : Profile
     {

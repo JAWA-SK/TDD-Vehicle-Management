@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using VehicleManagementSystem.Models.Configuration;
-using VehicleManagementSystem.Models.Data;
+using Vehicle.Management.System.Models.Configuration;
+using Vehicle.Management.System.Models.Data;
 
-namespace VehicleManagementSystem.Services.Database
+namespace Vehicle.Management.System.Services.Database
 {
     public class DatabaseContext(IOptions<VehicleDataBaseSettings> options, IMongoDatabase database) : IDatabaseContext
     {
@@ -11,9 +11,6 @@ namespace VehicleManagementSystem.Services.Database
         private readonly IOptions<VehicleDataBaseSettings> _options = options;
         private IMongoCollection<VehicleModel>? _vehicles;
 
-        public IMongoCollection<VehicleModel> Vehicles =>
-            _vehicles ??= _database.GetCollection<VehicleModel>(_options.Value.CollectionName);
-
-
+        public IMongoCollection<VehicleModel> Vehicles => throw new NotImplementedException();
     }
 }

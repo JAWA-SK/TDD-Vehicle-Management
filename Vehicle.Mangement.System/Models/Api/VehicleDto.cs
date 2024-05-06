@@ -1,6 +1,6 @@
-﻿namespace VehicleManagementSystem.Models.Api
+﻿namespace Vehicle.Management.System.Models.Api
 {
-    public class VehicleDto
+    public record VehicleDto
     {
         public string VehicleType { get; set; }
 

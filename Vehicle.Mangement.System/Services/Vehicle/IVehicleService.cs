@@ -1,7 +1,7 @@
-﻿using VehicleManagementSystem.Models.Api;
-using VehicleManagementSystem.Models.Data;
+﻿using Vehicle.Management.System.Models.Api;
+using Vehicle.Management.System.Models.Data;
 
-namespace VehicleManagementSystem.Services.Vehicle
+namespace Vehicle.Management.System.Services.Vehicle
 {
     public interface IVehicleService
     {

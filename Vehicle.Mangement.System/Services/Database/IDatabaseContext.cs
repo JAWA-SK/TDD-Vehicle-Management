@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
-using VehicleManagementSystem.Models.Data;
+using Vehicle.Management.System.Models.Data;
 
-namespace VehicleManagementSystem.Services.Database
+namespace Vehicle.Management.System.Services.Database
 {
     public interface IDatabaseContext
     {

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VehicleManagementSystem.Models.Api;
-using VehicleManagementSystem.Services.Vehicle;
+using Vehicle.Management.System.Models.Api;
+using Vehicle.Management.System.Services.Vehicle;
 
-namespace VehicleManagementSystem.Controllers
+namespace Vehicle.Management.System.Controllers
 {
+
     [Route("api")]
     [ApiController]
     public class VehicleController : ControllerBase

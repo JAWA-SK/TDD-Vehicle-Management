@@ -1,7 +1,7 @@
 using MongoDB.Driver;
-using VehicleManagementSystem.Helper;
-using VehicleManagementSystem.Models.Configuration;
-using VehicleManagementSystem.Services.Vehicle;
+using Vehicle.Management.System.Helpers;
+using Vehicle.Management.System.Models.Configuration;
+using Vehicle.Management.System.Services.Vehicle;
 
 var builder = WebApplication.CreateBuilder(args);
 

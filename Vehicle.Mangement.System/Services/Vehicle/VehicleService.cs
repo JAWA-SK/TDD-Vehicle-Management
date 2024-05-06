@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using VehicleManagementSystem.Models.Api;
-using VehicleManagementSystem.Models.Data;
-using VehicleManagementSystem.Services.Database;
+using Vehicle.Management.System.Models.Api;
+using Vehicle.Management.System.Models.Data;
+using Vehicle.Management.System.Services.Database;
 
-namespace VehicleManagementSystem.Services.Vehicle
+namespace Vehicle.Management.System.Services.Vehicle
 {
     public class VehicleService : IVehicleService
     {
