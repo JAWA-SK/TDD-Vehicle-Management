@@ -39,7 +39,6 @@ namespace Vehicle.Management.System.Controllers
         [HttpDelete("deleteVehicle")]
         public async Task<ActionResult> DeleteVehicle(string vehicleId)
         {
-
             return Ok("");
         }
     }
