@@ -16,7 +16,12 @@ namespace Vehicle.Management.System.Services.Vehicle
             _databaseContext = databaseContext;
         }
 
-        public async Task<VehicleModel> createVehicle(VehicleDto vehicle)
+        public Task<VehicleModel> createVehicle(VehicleDto vehicle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> deleteVehicle(string vehicleId)
         {
             throw new NotImplementedException();
         }

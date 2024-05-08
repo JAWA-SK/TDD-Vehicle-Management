@@ -153,5 +153,49 @@ namespace Vehicle.Management.System.tests.Test.Controller
                 .Should().BeOfType<BadRequestResult>().Which.StatusCode.Should()
                 .Be(StatusCodes.Status406NotAcceptable);
         }
+
+        [Fact]
+        public async Task ShouldReturnOn_DeleteVehicle_AndStatusAs200()
+        {
+            var mockVehicleId = _fixture.Create<string>();
+            var mockVehicleService = new Mock<IVehicleService>();
+
+            mockVehicleService
+                .Setup(service => service.deleteVehicle(mockVehicleId))
+                .ReturnsAsync("Deleted");
+
+            var testController = new VehicleController(mockVehicleService.Object);
+            var result = await testController.DeleteVehicle(mockVehicleId);
+
+            mockVehicleService
+                .Verify(service => service.deleteVehicle(mockVehicleId), Times.Once());
+
+            result
+                .Should().BeOfType<OkObjectResult>().Which.StatusCode.Should()
+                .Be(StatusCodes.Status200OK);
+
+        }
+
+        [Fact]
+        public async Task ShouldReturnOn_InvalidIdNotFoundForDelete_AndStatusAs406()
+        {
+            var mockVehicleId = "";
+            var mockVehicleService = new Mock<IVehicleService>();
+
+            mockVehicleService
+                .Setup(service => service.deleteVehicle(mockVehicleId))
+                .ReturnsAsync("Invalid Vehicle Id");
+
+            var testController = new VehicleController(mockVehicleService.Object);
+            var result = await testController.DeleteVehicle(mockVehicleId);
+
+            mockVehicleService
+                .Verify(service => service.deleteVehicle(mockVehicleId), Times.Once());
+
+            result
+                .Should().BeOfType<BadRequestResult>().Which.StatusCode.Should()
+                .Be(StatusCodes.Status406NotAcceptable);
+
+        }
     }
 }
