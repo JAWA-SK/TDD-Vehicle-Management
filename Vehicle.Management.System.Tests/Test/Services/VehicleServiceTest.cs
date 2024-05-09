@@ -7,7 +7,6 @@ using Vehicle.Management.System.Models.Api;
 using Vehicle.Management.System.Models.Data;
 using Vehicle.Management.System.Services.Database;
 using Vehicle.Management.System.Services.Vehicle;
-using VehicleManagementSystem.Constants;
 
 namespace Vehicle.Management.System.tests.Test.Services
 {
@@ -80,7 +79,7 @@ namespace Vehicle.Management.System.tests.Test.Services
         [Fact]
         public async Task DeleteVehicle_Should_ReturnSuccessMessage()
         {
-            var message = ApiMessages.Delete;
+            var message = 1;
             var mockId = _fixture.Create<string>();
             var service = new VehicleService(_mockMapper.Object, _mockDataBaseContext.Object);
             var result = await service.deleteVehicle(mockId);
