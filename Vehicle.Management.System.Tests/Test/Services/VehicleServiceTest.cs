@@ -7,6 +7,7 @@ using Vehicle.Management.System.Models.Api;
 using Vehicle.Management.System.Models.Data;
 using Vehicle.Management.System.Services.Database;
 using Vehicle.Management.System.Services.Vehicle;
+using VehicleManagementSystem.Constants;
 
 namespace Vehicle.Management.System.tests.Test.Services
 {

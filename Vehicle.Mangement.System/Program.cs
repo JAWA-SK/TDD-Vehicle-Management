@@ -22,6 +22,7 @@ builder.Services.AddSingleton<IMongoClient>(_ =>
     var connectionString = builder.Configuration.GetSection("ConnectionStrings:ConnectionUrl").Value;
     return new MongoClient(connectionString);
 });
+builder.Services.AddSingleton<IVehicleService, VehicleService>();
 
 
 var app = builder.Build();

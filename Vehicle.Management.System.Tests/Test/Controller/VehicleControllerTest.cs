@@ -40,6 +40,24 @@ namespace Vehicle.Management.System.tests.Test.Controller
 
         }
 
+        [Fact]
+        public async Task ShouldReturnOn_NoVehicleFound_AndStatusAs400()
+        {
+            var mockVehicleService = new Mock<IVehicleService>();
+
+            mockVehicleService
+                .Setup(service => service.getAllVehicles())
+                .ReturnsAsync(new List<VehicleModel>());
+
+            var testController = new VehicleController(mockVehicleService.Object);
+            var result = await testController.GetAllVehicle();
+
+            result
+                .Should().BeOfType<NotFoundObjectResult>().Which.StatusCode.Should()
+                .Be(StatusCodes.Status400BadRequest);
+
+
+        }
 
         [Fact]
         public async Task ShoudlReturnOn_GetVehicleById_AndStatusAs200()
