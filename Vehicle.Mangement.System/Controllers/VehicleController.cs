@@ -20,26 +20,37 @@ namespace Vehicle.Management.System.Controllers
         [HttpGet("getAllVehicle")]
         public async Task<IActionResult> GetAllVehicle()
         {
-
-            return Ok(ApiMessages.Success);
+            var vehicles = await _vehicleService.getAllVehicles();
+            return Ok(vehicles);
         }
 
         [HttpGet("getVehicle")]
         public async Task<IActionResult> GetVehicle(string vehicleId)
         {
-            return Ok(ApiMessages.Success);
+            var vehicle = await _vehicleService.getVehicle(vehicleId);
+            return vehicle is null ? new NotFoundObjectResult(ApiMessages.InvalidId)
+            { StatusCode = StatusCodes.Status404NotFound } : Ok(vehicle);
+
         }
 
         [HttpPost("createVehicle")]
         public async Task<ActionResult> CreateVehicle(VehicleDto vehicle)
         {
-            return Ok(ApiMessages.Created);
+            var createVehicle = await _vehicleService.createVehicle(vehicle);
+
+            return createVehicle is null ? new BadRequestObjectResult(ApiMessages.Invalid_Data)
+            { StatusCode = StatusCodes.Status406NotAcceptable } : CreatedAtAction(nameof(GetVehicle),
+            new { id = createVehicle.VehicleId }, createVehicle);
         }
 
         [HttpDelete("deleteVehicle")]
         public async Task<ActionResult> DeleteVehicle(string vehicleId)
         {
-            return Ok("");
+            var count = await _vehicleService.deleteVehicle(vehicleId);
+
+            return count <= 0 ? new NotFoundObjectResult(ApiMessages.InvalidId)
+            { StatusCode = StatusCodes.Status404NotFound } : Ok(ApiMessages.Delete);
+
         }
     }
 }

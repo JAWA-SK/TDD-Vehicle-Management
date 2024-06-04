@@ -80,7 +80,7 @@ namespace Vehicle.Management.System.tests.Test.Services
         [Fact]
         public async Task DeleteVehicle_Should_ReturnSuccessMessage()
         {
-            var message = ApiMessages.Delete;
+            var message = 1;
             var mockId = _fixture.Create<string>();
             var service = new VehicleService(_mockMapper.Object, _mockDataBaseContext.Object);
             var result = await service.deleteVehicle(mockId);

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MongoDB.Driver;
 using Vehicle.Management.System.Models.Api;
 using Vehicle.Management.System.Models.Data;
 using Vehicle.Management.System.Services.Database;
@@ -16,24 +17,41 @@ namespace Vehicle.Management.System.Services.Vehicle
             _databaseContext = databaseContext;
         }
 
-        public Task<VehicleModel> createVehicle(VehicleDto vehicle)
+        public async Task<VehicleModel> createVehicle(VehicleDto vehicle)
         {
-            throw new NotImplementedException();
+            var vehicleData = _mapper.Map<VehicleModel>(vehicle);
+
+            await _databaseContext
+                .Vehicles
+                .InsertOneAsync(vehicleData);
+
+            return vehicleData;
+
         }
 
-        public Task<string> deleteVehicle(string vehicleId)
+        public async Task<long> deleteVehicle(string vehicleId)
         {
-            throw new NotImplementedException();
+            var vehicle = await _databaseContext.Vehicles.DeleteOneAsync(vehicle =>
+            vehicle.VehicleId == vehicleId);
+            return vehicle.DeletedCount;
         }
 
-        public Task<List<VehicleModel>> getAllVehicles()
+        public async Task<List<VehicleModel>> getAllVehicles()
         {
-            throw new NotImplementedException();
+            return await _databaseContext
+                .Vehicles
+                .Find(vehicle => true)
+                .ToListAsync();
         }
 
-        public Task<VehicleModel?> getVehicle(string vehicleId)
+        public async Task<VehicleModel?> getVehicle(string vehicleId)
         {
-            throw new NotImplementedException();
+            return await _databaseContext
+                .Vehicles
+                .Find(vehicle => vehicle.VehicleId == vehicleId)
+                .FirstOrDefaultAsync();
+
+
         }
 
 
