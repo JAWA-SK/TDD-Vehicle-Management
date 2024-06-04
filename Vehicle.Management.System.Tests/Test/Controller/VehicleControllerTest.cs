@@ -87,7 +87,7 @@ namespace Vehicle.Management.System.tests.Test.Controller
         }
 
         [Fact]
-        public async Task ShoudlReturnOn_VehicleNotFoundForId_AndStatusAs400()
+        public async Task ShoudlReturnOn_VehicleNotFoundForId_AndStatusAs404()
         {
             var mockVehicleService = new Mock<IVehicleService>();
             var testVehicleId = _fixture.Create<string>();
@@ -100,8 +100,8 @@ namespace Vehicle.Management.System.tests.Test.Controller
             var result = await testController.GetVehicle(testVehicleId);
 
             result
-                .Should().BeOfType<NotFoundResult>().Which.StatusCode.Should()
-                .Be(StatusCodes.Status400BadRequest);
+                .Should().BeOfType<NotFoundObjectResult>().Which.StatusCode.Should()
+                .Be(StatusCodes.Status404NotFound);
         }
 
         [Fact]
@@ -122,13 +122,13 @@ namespace Vehicle.Management.System.tests.Test.Controller
                 .Verify(service => service.createVehicle(mockVehicleDto), Times.Once());
 
             result
-                .Should().BeOfType<OkObjectResult>().Which.Value.Should()
+                .Should().BeOfType<CreatedAtActionResult>().Which.Value.Should()
                 .Be(mockVehicle).And.Subject.As<VehicleModel>().Should()
                 .BeEquivalentTo(mockVehicle);
 
 
             result
-                .Should().BeOfType<OkObjectResult>().Which.StatusCode.Should()
+                .Should().BeOfType<CreatedAtActionResult>().Which.StatusCode.Should()
                 .Be(StatusCodes.Status201Created);
         }
 
@@ -141,7 +141,7 @@ namespace Vehicle.Management.System.tests.Test.Controller
 
             mockVehicleService
                 .Setup(service => service.createVehicle(mockVehicleDto))
-                .ReturnsAsync(mockVehicle);
+                .ReturnsAsync(null as VehicleModel);
 
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.CreateVehicle(mockVehicleDto);
@@ -150,7 +150,7 @@ namespace Vehicle.Management.System.tests.Test.Controller
                 .Verify(service => service.createVehicle(mockVehicleDto), Times.Once());
 
             result
-                .Should().BeOfType<BadRequestResult>().Which.StatusCode.Should()
+                .Should().BeOfType<BadRequestObjectResult>().Which.StatusCode.Should()
                 .Be(StatusCodes.Status406NotAcceptable);
         }
 
@@ -162,7 +162,7 @@ namespace Vehicle.Management.System.tests.Test.Controller
 
             mockVehicleService
                 .Setup(service => service.deleteVehicle(mockVehicleId))
-                .ReturnsAsync("Deleted");
+                .ReturnsAsync(10);
 
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.DeleteVehicle(mockVehicleId);
@@ -177,14 +177,14 @@ namespace Vehicle.Management.System.tests.Test.Controller
         }
 
         [Fact]
-        public async Task ShouldReturnOn_InvalidIdNotFoundForDelete_AndStatusAs406()
+        public async Task ShouldReturnOn_IdNotFoundForDelete_AndStatusAs404()
         {
-            var mockVehicleId = "";
+            var mockVehicleId = _fixture.Create<string>();
             var mockVehicleService = new Mock<IVehicleService>();
 
             mockVehicleService
                 .Setup(service => service.deleteVehicle(mockVehicleId))
-                .ReturnsAsync("Invalid Vehicle Id");
+                .ReturnsAsync(0);
 
             var testController = new VehicleController(mockVehicleService.Object);
             var result = await testController.DeleteVehicle(mockVehicleId);
@@ -193,8 +193,8 @@ namespace Vehicle.Management.System.tests.Test.Controller
                 .Verify(service => service.deleteVehicle(mockVehicleId), Times.Once());
 
             result
-                .Should().BeOfType<BadRequestResult>().Which.StatusCode.Should()
-                .Be(StatusCodes.Status406NotAcceptable);
+                .Should().BeOfType<NotFoundObjectResult>().Which.StatusCode.Should()
+                .Be(StatusCodes.Status404NotFound);
 
         }
     }

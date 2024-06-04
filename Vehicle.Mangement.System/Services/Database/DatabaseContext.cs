@@ -5,12 +5,17 @@ using Vehicle.Management.System.Models.Data;
 
 namespace Vehicle.Management.System.Services.Database
 {
-    public class DatabaseContext(IOptions<VehicleDataBaseSettings> options, IMongoDatabase database) : IDatabaseContext
+    public class DatabaseContext : IDatabaseContext
     {
-        private readonly IMongoDatabase _database = database;
-        private readonly IOptions<VehicleDataBaseSettings> _options = options;
-        private IMongoCollection<VehicleModel>? _vehicles;
 
-        public IMongoCollection<VehicleModel> Vehicles => throw new NotImplementedException();
+        private readonly IMongoCollection<VehicleModel> _vehicleCollection;
+        public DatabaseContext(IOptions<VehicleDataBaseSettings> dbSettings, IMongoClient client)
+        {
+            var database = client.GetDatabase(dbSettings.Value.DatabaseName);
+            _vehicleCollection = database.GetCollection<VehicleModel>(dbSettings.Value.CollectionName);
+        }
+
+        public IMongoCollection<VehicleModel> Vehicles =>
+             _vehicleCollection;
     }
 }
